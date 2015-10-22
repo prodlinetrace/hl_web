@@ -3,9 +3,18 @@ from flask.ext.login import login_required, current_user
 from .. import db
 from ..models import User, Comment
 from . import users
-from .forms import ProfileForm, UserForm, EditUserForm
+from .forms import ProfileForm, UserForm, EditUserForm, PasswordForm
 from flask.ext.babel import gettext
 from flask.ext.paginate import Pagination
+from sqlalchemy.orm import exc
+from werkzeug.exceptions import abort
+
+
+def get_object_or_404(model, *criterion):
+    try:
+        return model.query.filter(*criterion).one()
+    except exc.NoResultFound, exc.MultipleResultsFound:
+        abort(404)
 
 
 @users.route('/')
@@ -14,31 +23,23 @@ def index():
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['USERS_PER_PAGE']
     total = User.query.count()
-    users = User.query.order_by(User.id.desc()).paginate(page, per_page, False).items
+    users = User.query.order_by(User.login.desc()).paginate(page, per_page, False).items
     pagination = Pagination(page=page, total=total, record_name='users', per_page=per_page)
     return render_template('users/index.html', users=users, pagination=pagination)
+
     
-@users.route('/<username>')
+@users.route('/<login>')
 @login_required
-def user(username):
-    user = User.query.filter_by(login=username).first_or_404()
+def user(login):
+    user = User.query.filter_by(login=login).first_or_404()
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['COMMENTS_PER_PAGE']
     total = user.comments.count()
     comments = user.comments.paginate(page, per_page, False).items
     pagination = Pagination(page=page, total=total, record_name='comments', per_page=per_page)
     return render_template('users/user.html', user=user, comments=comments, pagination=pagination)
-    
-    
-    
-    page = request.args.get('page', 1, type=int)
-    pagination = user.comments.paginate(
-        page, per_page=current_app.config['USERS_PER_PAGE'],
-        error_out=False)
-    comment_list = pagination.items
-    return render_template('users/user.html', user=user, comments=comment_list, pagination=pagination)
 
-
+    
 @users.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
@@ -51,13 +52,12 @@ def profile():
         db.session.add(current_user._get_current_object())
         db.session.commit()
         flash(gettext(u'{user}, you have updated your profile successfully.'.format(user=current_user.name)))
-        return redirect(url_for('users.user', username=current_user.login))
+        return redirect(url_for('users.user', login=current_user.login))
     form.name.data = current_user.name
     form.location.data = current_user.location
     form.locale.data = current_user.locale
     form.bio.data = current_user.bio
     return render_template('users/profile.html', form=form)
-
 
 @users.route('/new', methods=['GET', 'POST'])
 @login_required
@@ -66,7 +66,7 @@ def new():
         abort(403)
     form = UserForm()
     if form.validate_on_submit():
-        user = User(login=form.login.data, name=form.name.data, password=form.password.data, is_admin=form.admin.data)
+        user = User(login=form.login.data, name=form.name.data, password=form.password.data, is_admin=form.admin.data, is_operator=form.operator.data)
         db.session.add(user)
         db.session.commit()
         flash(gettext(u'New user: {user} was added successfully.'.format(user=user.name)))
@@ -74,11 +74,11 @@ def new():
     return render_template('users/new_user.html', form=form)
 
 
-@users.route('/edit/<int:id>', methods=['GET', 'POST'])
+@users.route('/edit/<login>', methods=['GET', 'POST'])
 @login_required
-def edit(id):
-    user = User.query.get_or_404(id)
-    if not current_user.is_admin and user.id != current_user.id:
+def edit(login):
+    user = get_object_or_404(User, User.login == login)
+    if not current_user.is_admin and user.login != current_user.login:
         abort(403)
     form = EditUserForm()
     if not current_user.is_admin:
@@ -93,12 +93,29 @@ def edit(id):
     return render_template('users/profile.html', form=form)
 
 
-@users.route('/delete/<int:id>', methods=['GET', 'POST'])
+@users.route('/password/<login>', methods=['GET', 'POST'])
 @login_required
-def delete(id):
-    user = User.query.get_or_404(id)
+def password(login):
+    user = get_object_or_404(User, User.login == login)
+    if not current_user.is_admin and user.login != current_user.login:
+        abort(403)
+    form = PasswordForm()
+    if form.validate_on_submit():
+        form.to_model(user)
+        db.session.add(user)
+        db.session.commit()
+        flash(gettext(u'User password for: {user} has been updated.'.format(user=user.name)))
+        return redirect(url_for('.index'))
+    form.from_model(user)
+    return render_template('users/password.html', form=form)
+
+
+@users.route('/delete/<login>', methods=['GET', 'POST'])
+@login_required
+def delete(login):
+    user = get_object_or_404(User, User.login == login)
     if current_user.is_admin:
-        if user.id == current_user.id:
+        if user.login == current_user.login:
             flash(gettext(u'Unable to remove currently logged user: {user}.'.format(user=user.name)))
             return redirect(url_for('.index'))
 

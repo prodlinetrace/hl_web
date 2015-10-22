@@ -1,35 +1,37 @@
-from datetime import datetime
 import hashlib
-from markdown import markdown
 import bleach
+import logging
+from datetime import datetime
+from markdown import markdown
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import request, current_app
 from flask.ext.login import UserMixin
 from . import db, login_manager
-import logging
 logger = logging.getLogger(__name__)
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-__version__ = '0.2.5'
+__version__ = '0.3.0'
 
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(64), nullable=False, unique=True, index=True)
-    is_admin = db.Column(db.Boolean)
-    password_hash = db.Column(db.String(128))
     name = db.Column(db.String(64))
+    is_admin = db.Column(db.Boolean)
+    is_operator = db.Column(db.Boolean)
+    password_hash = db.Column(db.String(128))
     location = db.Column(db.String(64))
     locale = db.Column(db.String(16))
     bio = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.now)
     avatar_hash = db.Column(db.String(32))
     comments = db.relationship('Comment', lazy='dynamic', backref='author')
+    status = db.relationship('Status', lazy='dynamic', backref='user', foreign_keys='Status.user_id')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -191,11 +193,13 @@ class Status(db.Model):
     date_time = db.Column(db.String(40))
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     station_id = db.Column(db.Integer, db.ForeignKey('station.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, status, product, station, date_time=None):
+    def __init__(self, status, product, station, user=None, date_time=None):
         self.status = status
         self.product_id = product
         self.station_id = station
+        self.user_id = user
         if date_time is None:
             date_time = datetime.now()
         self.date_time = str(date_time)
@@ -211,6 +215,7 @@ class Status(db.Model):
             'status': self.status,
             'product_id': self.product_id,
             'station_id': self.station_id,
+            'user_id': self.user_id,
             'date_time': self.date_time,
         }
 

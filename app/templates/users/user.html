@@ -9,6 +9,8 @@
         {% if user.name %}{{_('Name')}}: {{ user.name }}<br>{% endif %}
         {% if user.location %}{{_('Location')}}: <a href="http://maps.google.com?q={{ user.location }}">{{ user.location }}</a><br>{% endif %}
         {% if user.locale %}{{_('Preferred Language')}}: {{ user.locale }}<br>{% endif %}
+        {{_('Operator')}}: {{ user.is_operator }}<br>
+        {{_('Administrator')}}: {{ user.is_admin }}<br>
     </p>
     {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
 </div>

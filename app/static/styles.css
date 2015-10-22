@@ -1,3 +1,18 @@
+/* set page width */ 
+.container {
+  max-width: 2000px;
+  width: 1800px;
+}
+
+#red {
+	background-color:#ffcccc;
+}
+
+#green {
+	background-color:#ccffcc;
+}
+
+
 .user-profile {
     min-height: 140px;
 }
@@ -16,6 +31,7 @@
 
 .value {
 	width: 50px;
+	text-align: right;  
 }
 
 .status {
@@ -83,6 +99,7 @@ li.product:hover {
     background-color: #f8f8f8;
 }
 
+
 div.product-header h2 {
     font-size: 200%;
     margin: 5px 0px 15px 0px;
@@ -108,8 +125,8 @@ div.product-header p {
 }
 
 div.product-main {
-    width: 450px;
-    max-width: 450px;
+    width: 1450px;
+    max-width: 1450px;
     display: inline-block;
     margin: 5px;
     vertical-align: middle;
@@ -211,7 +228,7 @@ table.operation_data {
 	font-size: 12px;
 	color: #ff0000;
 	background-color: #4D4D4D;
-	width: 40em;
+	width: 70em;
 	border: 1px solid #333;
     border-spacing: 0;
     table-layout: fixed;
