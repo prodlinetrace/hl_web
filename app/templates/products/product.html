@@ -18,19 +18,14 @@
 		    	{{ _('Serial') }}: {{ product.serial | safe }}
 		    </div>
 	    {% endif %}
-	    {% if product.year %}
-		    <div class="product-main">
-		    	{{ _('Year') }}: {{ (2000 + product.year) | safe }}
-	    	</div>
-	    {% endif %}
-	    {% if product.week %}
-		    <div class="product-main">
-		    	{{ _('Week') }}: {{ product.week | safe }}
-	    	</div>
-	    {% endif %}
 	    {% if product.date_added %}
 		    <div class="product-main">
 		    	{{ _('Date Added') }}: {{ product.date_added | safe }}
+	    	</div>
+	    {% endif %}
+	    {% if product.program_id %}
+		    <div class="product-main">
+		    	{{ _('Program') }}: {{ product.program.name | safe }}
 	    	</div>
 	    {% endif %}
 
@@ -166,20 +161,22 @@
  	{% endif %}
 
 </div>
-	{% if comments %}
-		<h3 id="comments">{{ _('Comments') }}</h3>
-		<ul class="pager">
-			{{ pagination.links }}
-		</ul>
-		{% include "products/_comments.html" %}
-		<ul class="pager">
-			{{ pagination.info }}
-			{{ pagination.links }}
-		</ul>
-	{% endif %}
-	{% if form %}
-		<h3 id="comment-form">{{ _('Write a comment') }}</h3>
-		{{ wtf.quick_form(form, action='#comment-form') }}
+	{% if config.COMMENTS %}
+		{% if comments %}
+			<h3 id="comments">{{ _('Comments') }}</h3>
+			<ul class="pager">
+				{{ pagination.links }}
+			</ul>
+			{% include "products/_comments.html" %}
+			<ul class="pager">
+				{{ pagination.info }}
+				{{ pagination.links }}
+			</ul>
+		{% endif %}
+		{% if form %}
+			<h3 id="comment-form">{{ _('Write a comment') }}</h3>
+			{{ wtf.quick_form(form, action='#comment-form') }}
+		{% endif %}
 	{% endif %}
 {% endblock %}
 

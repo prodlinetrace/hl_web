@@ -17,13 +17,16 @@
 <ul class="pager">
 	{{ pagination.links }}
 </ul>
-{% include "products/_comments.html" %}
-{% if comments %}
-<ul class="pager">
-	{{ pagination.info }}
-	{{ pagination.links }}
-</ul>
-{% endif %}
+
+	{% if config.COMMENTS %}
+		{% include "products/_comments.html" %}
+		{% if comments %}
+		<ul class="pager">
+			{{ pagination.info }}
+			{{ pagination.links }}
+		</ul>
+		{% endif %}
+	{% endif %}
 {% endblock %}
 
 {% block scripts %}

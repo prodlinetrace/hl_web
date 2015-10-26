@@ -8,7 +8,9 @@
             <th class="value">{{ _('Program') }}</th>
             <th class="value">{{ _('Statuses') }}</th>
             <th class="value">{{ _('Operations') }}</th>
-            <th class="value">{{ _('Comments') }}</th>
+            {% if config.COMMENTS %}
+            	<th class="value">{{ _('Comments') }}</th>
+            {% endif %}
             <th class="extras">{{ _('Extras') }}</th>
        	</tr>
    	</thead>
@@ -19,12 +21,15 @@
 			<td class="right">{{ product.type }}</td>
 			<td class="right">{{ product.serial }}</td>
    			<td class="right">{{ product.date_added }}</td>
-			<td class="right">{{ product.program.name }}</td>
+			<!-- td class="right">{{ product.program.name }}</td-->
+			<td class="right"><a href="{{ url_for('programs.program', id=product.program.id) }}">{{ product.program.name }}</a></td>
 			<td class="right">{{ product.statuses.count() }}</td>
 			<td class="right">{{ product.operations.count() }}</td>
-   			<td class="right">
-   				<div class="pull-right"><a href="{{ url_for('products.product', id=product.id) }}#comments">{{ product.comments.count() }}</a></div>
-   			</td>
+            {% if config.COMMENTS %}
+	   			<td class="right">
+	   				<div class="pull-right"><a href="{{ url_for('products.product', id=product.id) }}#comments">{{ product.comments.count() }}</a></div>
+	   			</td>
+            {% endif %}
    			<td class="extras">
    				{% if current_user.is_admin %}
 			        <div id="product-moderate-{{ product.id }}" class="pull-right">

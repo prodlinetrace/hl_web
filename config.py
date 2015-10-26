@@ -10,12 +10,14 @@ class Config:
     OPERATION_STATUSES_PER_PAGE = 100
     OPERATIONS_PER_PAGE = 1000
     STATUSES_PER_PAGE = 1000
+    PROGRAMS_PER_PAGE = 200
     PRODUCTS_PER_PAGE = 200
     COMMENTS_PER_PAGE = 10
+    COMMENTS = False
     SQLALCHEMY_DATABASE_URI_PREFIX = 'sqlite:///'
     BOOTSTRAP_SERVE_LOCAL = True
     LANGUAGES = (('en', 'English'), ('pl', 'Polish'))
-    VERSION = '1.5.1'
+    VERSION = '1.5.2'
     DBMODEL_VERSION = "None"
     BABEL_DEFAULT_LOCALE = 'pl'
     MODE = False

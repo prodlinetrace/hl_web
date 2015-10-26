@@ -64,7 +64,8 @@ def edit_product(id):
     product = Product.query.get_or_404(id)
     if not current_user.is_admin and product.author != current_user:
         abort(403)
-    form = ProductForm()
+    program_choices = [(unicode(program.id), unicode("[{id}] - {name}".format(id=program.id, name=program.name))) for program in Program.query.order_by(Program.id.asc())]
+    form = ProductForm(program_choices)
     if form.validate_on_submit():
         form.to_model(product)
         db.session.add(product)

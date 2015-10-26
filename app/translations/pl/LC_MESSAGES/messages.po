@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-20 10:18+0200\n"
-"PO-Revision-Date: 2015-10-20 10:21+0100\n"
+"POT-Creation-Date: 2015-10-26 23:04+0100\n"
+"PO-Revision-Date: 2015-10-26 23:10+0100\n"
 "Last-Translator: \n"
+"Language: pl\n"
 "Language-Team: pl <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
-"Language: pl\n"
-"X-Generator: Poedit 1.7.5\n"
+"Generated-By: Babel 2.1.1\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: app/api_1_0/comments.py:13
 msgid "You cannot modify this comment."
@@ -71,7 +71,7 @@ msgid "You have been logged out."
 msgstr "Zostałeś wylogowany."
 
 #: app/operation_statuses/forms.py:9 app/operation_types/forms.py:8
-#: app/stations/forms.py:8
+#: app/programs/forms.py:8 app/stations/forms.py:8
 #: app/templates/operation_statuses/_operation_statuses.html:4
 #: app/templates/operation_statuses/operation_status.html:9
 #: app/templates/operation_types/_operation_types.html:4
@@ -79,22 +79,26 @@ msgstr "Zostałeś wylogowany."
 #: app/templates/operations/_operations.html:4
 #: app/templates/operations/operation.html:9
 #: app/templates/products/_products.html:4
+#: app/templates/programs/_programs.html:4
+#: app/templates/programs/program.html:9
 #: app/templates/stations/_stations.html:4
 #: app/templates/stations/station.html:9
-#: app/templates/statuses/_statuses.html:4
-#: app/templates/statuses/status.html:9 app/templates/units/_units.html:4
-#: app/templates/units/unit.html:9 app/units/forms.py:8 app/users/forms.py:44
+#: app/templates/statuses/_statuses.html:4 app/templates/statuses/status.html:9
+#: app/templates/units/_units.html:4 app/templates/units/unit.html:9
+#: app/units/forms.py:8 app/users/forms.py:44
 msgid "Id"
 msgstr "Identyfikator"
 
 #: app/operation_statuses/forms.py:10 app/operation_types/forms.py:9
-#: app/stations/forms.py:9
+#: app/programs/forms.py:9 app/stations/forms.py:9
 #: app/templates/operation_statuses/_operation_statuses.html:5
 #: app/templates/operation_statuses/operation_status.html:10
 #: app/templates/operation_types/_operation_types.html:5
 #: app/templates/operation_types/operation_type.html:10
 #: app/templates/operations/_operations.html:5
 #: app/templates/operations/operation.html:10
+#: app/templates/programs/_programs.html:5
+#: app/templates/programs/program.html:10
 #: app/templates/stations/_stations.html:5
 #: app/templates/stations/station.html:10
 #: app/templates/statistics/index.html:43
@@ -111,21 +115,25 @@ msgid "Unit"
 msgstr "Jednostka"
 
 #: app/operation_statuses/forms.py:12 app/operation_types/forms.py:10
+#: app/programs/forms.py:10
 #: app/templates/operation_statuses/_operation_statuses.html:7
 #: app/templates/operation_statuses/operation_status.html:13
 #: app/templates/operation_types/_operation_types.html:6
 #: app/templates/operation_types/operation_type.html:11
 #: app/templates/operations/operation.html:11
-#: app/templates/statistics/index.html:45
-#: app/templates/statuses/status.html:11 app/templates/units/_units.html:7
-#: app/templates/units/unit.html:12 app/units/forms.py:11
+#: app/templates/programs/_programs.html:6
+#: app/templates/programs/program.html:11
+#: app/templates/statistics/index.html:45 app/templates/statuses/status.html:11
+#: app/templates/units/_units.html:7 app/templates/units/unit.html:12
+#: app/units/forms.py:11
 msgid "Description"
 msgstr "Opis"
 
 #: app/operation_statuses/forms.py:13 app/operation_types/forms.py:11
 #: app/products/forms.py:15 app/products/forms.py:34 app/products/forms.py:40
-#: app/stations/forms.py:14 app/units/forms.py:12 app/users/forms.py:18
-#: app/users/forms.py:28 app/users/forms.py:34 app/users/forms.py:52
+#: app/programs/forms.py:11 app/stations/forms.py:14 app/units/forms.py:12
+#: app/users/forms.py:18 app/users/forms.py:28 app/users/forms.py:34
+#: app/users/forms.py:52
 msgid "Submit"
 msgstr "Wyślij"
 
@@ -135,6 +143,7 @@ msgstr "Nowy status operacji : {operation_status} został dodany."
 
 #: app/operation_statuses/routes.py:50 app/operation_statuses/routes.py:74
 #: app/operation_types/routes.py:49 app/operation_types/routes.py:71
+#: app/programs/routes.py:43 app/programs/routes.py:65
 #: app/stations/routes.py:58 app/stations/routes.py:81 app/units/routes.py:43
 #: app/units/routes.py:65
 msgid "Validation failed"
@@ -217,6 +226,22 @@ msgstr "Twój komentarz został opublikowany."
 msgid "The product was updated successfully."
 msgstr "Produkt został pomyślnie zaktualizowany."
 
+#: app/programs/routes.py:39
+msgid "New program: {program} was added successfully."
+msgstr "Nowy program: {program} został dodany pomyślnie."
+
+#: app/programs/routes.py:61
+msgid "Program with id: {program} has been updated."
+msgstr "Program o id: {program} został zaktualizowany"
+
+#: app/programs/routes.py:80
+msgid "Program with id: {id} has been deleted."
+msgstr "Program: {program} został usunięty"
+
+#: app/programs/routes.py:83
+msgid "You have to be administrator to remove programs."
+msgstr "Musisz byc administratorem aby kasować programy."
+
 #: app/stations/forms.py:10 app/templates/stations/_stations.html:6
 #: app/templates/stations/station.html:11
 msgid "IP Address"
@@ -291,13 +316,13 @@ msgstr "Stacje"
 
 #: app/templates/base.html:32
 #: app/templates/operation_types/_operation_types.html:7
-#: app/templates/products/_products.html:11
+#: app/templates/products/_products.html:10
 #: app/templates/stations/_stations.html:11
 #: app/templates/statistics/index.html:60
 msgid "Operations"
 msgstr "Operacje"
 
-#: app/templates/base.html:33 app/templates/products/_products.html:10
+#: app/templates/base.html:33 app/templates/products/_products.html:9
 #: app/templates/stations/_stations.html:10
 #: app/templates/statistics/index.html:55
 msgid "Statuses"
@@ -307,29 +332,32 @@ msgstr "Statusy"
 msgid "Units"
 msgstr "Jednostki"
 
-#: app/templates/base.html:36 app/templates/statistics/index.html:90
+#: app/templates/base.html:35
+msgid "Programs"
+msgstr "Programy"
+
+#: app/templates/base.html:37 app/templates/statistics/index.html:90
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: app/templates/base.html:44
+#: app/templates/base.html:45
 msgid "Profile"
 msgstr "Profil"
 
-#: app/templates/base.html:46
+#: app/templates/base.html:47
 msgid "Admin"
 msgstr "Adminitstrator"
 
-#: app/templates/base.html:46 app/templates/users/_users.html:7
-#: app/templates/users/user.html:12 app/users/forms.py:26
-#: app/users/forms.py:50
+#: app/templates/base.html:47 app/templates/users/_users.html:7
+#: app/templates/users/user.html:12 app/users/forms.py:26 app/users/forms.py:50
 msgid "Operator"
 msgstr "Operator"
 
-#: app/templates/base.html:48
+#: app/templates/base.html:49
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: app/templates/base.html:71
+#: app/templates/base.html:72
 msgid "stats"
 msgstr "statystyki"
 
@@ -349,8 +377,6 @@ msgstr "Zaloguj"
 #: app/templates/products/product.html:118
 #: app/templates/products/product.html:132
 #: app/templates/products/product.html:139
-#: app/templates/products/product.html:153
-#: app/templates/products/product.html:160
 msgid "undefined value"
 msgstr "Wartość niezdefiniowana"
 
@@ -362,7 +388,10 @@ msgstr "Wartość niezdefiniowana"
 #: app/templates/operation_types/operation_type.html:5
 #: app/templates/operations/operation.html:5
 #: app/templates/products/_product_header.html:9
-#: app/templates/products/_products.html:38
+#: app/templates/products/_products.html:37
+#: app/templates/programs/_program_header.html:7
+#: app/templates/programs/_program_header.html:10
+#: app/templates/programs/program.html:5
 #: app/templates/stations/_station_header.html:12
 #: app/templates/stations/_station_header.html:15
 #: app/templates/stations/station.html:5 app/templates/statuses/status.html:5
@@ -378,9 +407,10 @@ msgstr "Edytuj"
 #: app/templates/operations/_operation_header.html:7
 #: app/templates/products/_comment.html:4
 #: app/templates/products/_product_header.html:4
-#: app/templates/products/_products.html:33
+#: app/templates/products/_products.html:32
 #: app/templates/products/product.html:66
-#: app/templates/products/product.html:171
+#: app/templates/products/product.html:150
+#: app/templates/programs/_program_header.html:9
 #: app/templates/stations/_station_header.html:14
 #: app/templates/statuses/_status_header.html:7
 #: app/templates/units/_unit_header.html:10
@@ -395,9 +425,10 @@ msgstr "Jednostka [Symbol]"
 #: app/templates/operation_statuses/_operation_statuses.html:8
 #: app/templates/operation_types/_operation_types.html:8
 #: app/templates/operations/_operations.html:6
-#: app/templates/products/_products.html:13
+#: app/templates/products/_products.html:12
 #: app/templates/products/product.html:52
 #: app/templates/products/product.html:88
+#: app/templates/programs/_programs.html:7
 #: app/templates/stations/_stations.html:12
 #: app/templates/statuses/_statuses.html:6 app/templates/units/_units.html:8
 #: app/templates/users/_users.html:9
@@ -419,8 +450,8 @@ msgstr "Dodaj nowy status operacji"
 #: app/templates/operation_statuses/operation_status.html:6
 #: app/templates/operation_types/operation_type.html:6
 #: app/templates/operations/operation.html:6
-#: app/templates/stations/station.html:6 app/templates/statuses/status.html:6
-#: app/templates/units/unit.html:6
+#: app/templates/programs/program.html:6 app/templates/stations/station.html:6
+#: app/templates/statuses/status.html:6 app/templates/units/unit.html:6
 msgid "Details for"
 msgstr "Detale"
 
@@ -447,9 +478,9 @@ msgstr "Dodaj nowy rodzaj operacji"
 #: app/templates/operations/_operation_header.html:10
 #: app/templates/products/_comment.html:7
 #: app/templates/products/_product_header.html:7
-#: app/templates/products/_products.html:36
+#: app/templates/products/_products.html:35
 #: app/templates/products/product.html:69
-#: app/templates/products/product.html:174
+#: app/templates/products/product.html:153
 #: app/templates/statuses/_status_header.html:10
 msgid "Deleted"
 msgstr "Skasowany"
@@ -467,8 +498,8 @@ msgid "commented"
 msgstr "skomentowany"
 
 #: app/templates/products/_product_header.html:14
-#: app/templates/products/_products.html:12
-#: app/templates/products/product.html:191
+#: app/templates/products/_products.html:11
+#: app/templates/products/product.html:170
 #: app/templates/statistics/index.html:85
 msgid "Comments"
 msgstr "Komentarze"
@@ -484,14 +515,8 @@ msgid "Serial"
 msgstr "Numer Seryjny"
 
 #: app/templates/products/_products.html:8
-#: app/templates/products/product.html:23
-msgid "Year"
-msgstr "Rok"
-
-#: app/templates/products/_products.html:9
-#: app/templates/products/product.html:28
-msgid "Week"
-msgstr "Tydzień"
+msgid "Program"
+msgstr "Program"
 
 #: app/templates/products/edit_product.html:6
 msgid "Product"
@@ -504,6 +529,14 @@ msgstr "Znajdź produkt"
 #: app/templates/products/product.html:10
 msgid "Product Overview"
 msgstr "Podgląd Produktu"
+
+#: app/templates/products/product.html:23
+msgid "Year"
+msgstr "Rok"
+
+#: app/templates/products/product.html:28
+msgid "Week"
+msgstr "Tydzień"
 
 #: app/templates/products/product.html:37
 msgid "Status Overview"
@@ -542,16 +575,28 @@ msgid "Operation"
 msgstr "Operacja"
 
 #: app/templates/products/product.html:87
-msgid "Operation Measurment"
-msgstr "Parametry Operacji"
+msgid "Operation Measurement"
+msgstr "Pomiary Operacji"
 
 #: app/templates/products/product.html:87
-msgid "Result | Max | Min | Unit | Status"
-msgstr "Rezultat | Max | Min | Jednostka | Status"
+msgid "Minimum | Result | Maximum | Unit | Status"
+msgstr "Minimum | Rezultat | Maximum | Jednostka | Status"
 
-#: app/templates/products/product.html:202
+#: app/templates/products/product.html:181
 msgid "Write a comment"
 msgstr "Dodaj komentarz"
+
+#: app/templates/programs/edit.html:6
+msgid "Edit Program"
+msgstr "Edytuj Program"
+
+#: app/templates/programs/index.html:6
+msgid "New Program"
+msgstr "Nowy Program"
+
+#: app/templates/programs/new.html:6
+msgid "Add New Program"
+msgstr "Dodaj Nowy Program"
 
 #: app/templates/restapi/index.html:4
 msgid "Welcome to ProdLineTrace"
@@ -812,8 +857,7 @@ msgstr "Edytuj hasło"
 msgid "Edit Profile"
 msgstr "Edytuj Profil"
 
-#: app/templates/users/user.html:10 app/users/forms.py:13
-#: app/users/forms.py:47
+#: app/templates/users/user.html:10 app/users/forms.py:13 app/users/forms.py:47
 msgid "Location"
 msgstr "Lokalizacja"
 

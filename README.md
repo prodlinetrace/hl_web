@@ -46,6 +46,14 @@ For Windows users working on the standard command prompt:
     Password: <pick-a-password>
     Confirm: <pick-a-password>
     User <your-username> was registered successfully.
+    
+    How to generate password has manually:
+    - please open python terminal and type:
+    >>> from werkzeug.security import generate_password_hash
+    >>> generate_password_hash('admin12')
+    'pbkdf2:sha1:1000$dGRfs0GT$4db5f6c1187ee2e8d4013597d72332a69d435b21'
+    >>> 
+    
 
 **Step 4**: Start the application:
 

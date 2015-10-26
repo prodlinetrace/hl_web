@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}{{ _('PLCWeb - ProdLineTrace Frontend - ') }} {{ config.VERSION }}{% endblock %}
+{% block title %}{{ _('TRCWeb - Traceability Frontend - ') }} {{ config.VERSION }}{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -32,6 +32,7 @@
 	                	 <li><a href="{{ url_for('operation_types.index') }}">{{ _('Operations') }}</a></li>
           	 	      	 <li><a href="{{ url_for('operation_statuses.index') }}">{{ _('Statuses') }}</a></li>
            	 	      	 <li><a href="{{ url_for('units.index') }}">{{ _('Units') }}</a></li>
+           	 	      	 <li><a href="{{ url_for('programs.index') }}">{{ _('Programs') }}</a></li>
 	                {% if current_user.is_admin %}
 	                	 <li><a href="{{ url_for('users.index') }}">{{ _('Users') }}</a></li>
 	                {% endif %}
