@@ -32,7 +32,7 @@ def find_product():
         flash(gettext(u'Product with serial {serial} not found.'.format(serial=form.serial.data)))
     return render_template('products/find_product.html', form=form)
 
-@products.route('/product/<int:id>', methods=['GET', 'POST'])
+@products.route('/product/<id>', methods=['GET', 'POST'])
 def product(id):
     product = Product.query.get_or_404(id)
     comment = None
@@ -58,7 +58,7 @@ def product(id):
         headers['X-XSS-Protection'] = '0'
     return render_template('products/product.html', product=product, form=form, comments=comments, pagination=pagination), 200, headers
 
-@products.route('/edit/<int:id>', methods=['GET', 'POST'])
+@products.route('/edit/<id>', methods=['GET', 'POST'])
 @login_required
 def edit_product(id):
     product = Product.query.get_or_404(id)

@@ -141,27 +141,6 @@
 	    						</td>
 		    				</tr>
 			    			{% endif %}
-			    			{% if operation.result_3 or operation.result_3_status.id != 0 %}
-		    				<tr>
-		    					<td class="value">{{ "%.2f" % (operation.result_3_min|round(2)) }}</td>
-		    					<td class="value" {% if operation.result_3 < operation.result_3_min  or operation.result_3 > operation.result_3_max %} id="red" {% else %} id="green" {% endif %} >{{ "%.2f" % (operation.result_3|round(2)) }}</td>
-		    					<td class="value">{{ "%.2f" % (operation.result_3_max|round(2)) }}</td>
-		    					<td class="value">
-			    					{% if operation.result_3_status  %}
-			    						[<a href="{{ url_for('operation_statuses.operation_status', id=operation.result_3_status.id)}}" title="{{operation.result_3_status.description}}">{{ operation.result_3_status.unit.symbol }}</a>]
-			    					{% else %}
-			    						{{ _('undefined value') }}
-									{% endif %}
-	    						</td>
-	    						<td>
-			    					{% if operation.result_3_status  %}
-		    							<a href="{{ url_for('operation_statuses.operation_status', id=operation.result_3_status.id)}}" title="{{operation.result_3_status.description}}">{{ operation.result_3_status.name }}</a>
-			    					{% else %}
-			    						{{ _('undefined value') }}
-									{% endif %}
-	    						</td>
-	    					</tr>
-			    			{% endif %}
 	    		        </tbody>
     				</table>
     			</td>

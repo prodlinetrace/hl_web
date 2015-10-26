@@ -5,8 +5,7 @@
             <th class="type">{{ _('Type') }}</th>
             <th class="serial">{{ _('Serial') }}</th>
             <th class="date">{{ _('Date Added') }}</th>
-            <th class="value">{{ _('Year') }}</th>
-            <th class="value">{{ _('Week') }}</th>
+            <th class="value">{{ _('Program') }}</th>
             <th class="value">{{ _('Statuses') }}</th>
             <th class="value">{{ _('Operations') }}</th>
             <th class="value">{{ _('Comments') }}</th>
@@ -20,8 +19,7 @@
 			<td class="right">{{ product.type }}</td>
 			<td class="right">{{ product.serial }}</td>
    			<td class="right">{{ product.date_added }}</td>
-			<td class="right">{{ product.year }}</td>
-			<td class="right">{{ product.week }}</td>
+			<td class="right">{{ product.program.name }}</td>
 			<td class="right">{{ product.statuses.count() }}</td>
 			<td class="right">{{ product.operations.count() }}</td>
    			<td class="right">
