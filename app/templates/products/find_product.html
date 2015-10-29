@@ -5,14 +5,19 @@
 <div class="page-header">
     <h1>{{ _('Find Product') }}</h1>
 </div>
-{{ wtf.quick_form(form) }}
+<h3>Basic Product Search</h3>
+{{ wtf.quick_form(basic_search_form) }}
+<br/>
+<h3>Find Products within date range</h3>
+{{ wtf.quick_form(date_range_search_form) }}
+
 {% endblock %}
 
 {% block scripts %}
 	{{ super() }}
 	<link rel="stylesheet" href="{{ url_for('static', filename='jquery-ui.css') }}" />
 	<script src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
-
+	
 	<script type="text/javascript">
 		var product_type = $('#type').value;
 

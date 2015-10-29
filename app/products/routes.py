@@ -5,14 +5,21 @@ from flask.ext.paginate import Pagination
 from .. import db, babel, cfg
 from ..models import *
 from . import products
-from .forms import ProductForm, CommentForm, FindProductForm
+from .forms import ProductForm, CommentForm, FindProductForm, FindProductsRangeForm
 
 @products.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
     per_page = current_app.config['PRODUCTS_PER_PAGE']
-    total = Product.query.count()
-    products = Product.query.order_by(Product.date_added.desc()).paginate(page, per_page, False).items
+    query = Product.query
+    if start_date:
+        query = query.filter(start_date <= Product.date_added)
+    if end_date:
+        query = query.filter(end_date >= Product.date_added)
+    total = query.count()
+    products = query.order_by(Product.date_added.desc()).paginate(page, per_page, False).items
     pagination = Pagination(page=page, total=total, record_name='products', per_page=per_page)
     return render_template('products/index.html', products=products, pagination=pagination)
 
@@ -21,16 +28,32 @@ def find_product():
     type_query = db.session.query(Product.type.distinct().label("type"))
     type_choices = [(unicode(row.type), unicode(row.type)) for row in type_query.all()]
     type_choices.insert(0, ("", "Select Product Type"))
-    form = FindProductForm(type_choices)
+    basic_search_form = FindProductForm(type_choices)
+    date_range_search_form = FindProductsRangeForm() 
 
-    if form.validate_on_submit():
-        result = Product.query.filter_by(type=form.type.data).filter_by(serial=form.serial.data).first()
+    if basic_search_form.validate_on_submit():
+        result = Product.query.filter_by(type=basic_search_form.type.data).filter_by(serial=basic_search_form.serial.data).first()
         if result is not None:
-            flash(gettext(u'Product with serial {serial} found.'.format(serial=form.serial.data)))
+            flash(gettext(u'Product with serial {serial} found.'.format(serial=basic_search_form.serial.data)))
             return redirect(url_for('products.product', id=result.id))
+        
+    if date_range_search_form.validate_on_submit():
+        start_date = date_range_search_form.start.data
+        end_date = date_range_search_form.end.data
+        query = Product.query
+        if start_date:
+            query = query.filter(start_date <= Product.date_added)
+        if end_date:
+            query = query.filter(end_date >= Product.date_added)
+        total = query.count()
+        result = query.all()
+        if result is not None:
+            flash(gettext(u'{number} products found with date range: {start} to {end}.'.format(number=len(result), start=start_date, end=end_date)))
+            return redirect(url_for('products.index', start_date=start_date, end_date=end_date))
+
 
         flash(gettext(u'Product with serial {serial} not found.'.format(serial=form.serial.data)))
-    return render_template('products/find_product.html', form=form)
+    return render_template('products/find_product.html', basic_search_form=basic_search_form, date_range_search_form=date_range_search_form)
 
 @products.route('/product/<id>', methods=['GET', 'POST'])
 def product(id):

@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import SubmitField, IntegerField, SelectField, StringField
-from wtforms.fields.html5 import DateTimeField
+from wtforms.fields.html5 import DateTimeField, DateField
 from wtforms.validators import Required, NumberRange, InputRequired, Length
 from flask.ext.pagedown.fields import PageDownField
 from flask.ext.babel import gettext, lazy_gettext
@@ -29,6 +29,7 @@ class ProductForm(Form):
         Form.__init__(self)
         self.program_id.choices = program_choices
 
+
 class CommentForm(Form):
     body = PageDownField(lazy_gettext('Comment'), validators=[Required()])
     submit = SubmitField(lazy_gettext('Submit'))
@@ -37,8 +38,16 @@ class CommentForm(Form):
 class FindProductForm(Form):
     type = SelectField(lazy_gettext('Product Type'), validators=[Required()])
     serial = StringField(lazy_gettext('Serial Number'), validators=[Required()])
-    submit = SubmitField(lazy_gettext('Submit'))
+    submit = SubmitField(lazy_gettext('Find'))
 
     def __init__(self, type_choices):
         Form.__init__(self)
         self.type.choices = type_choices
+
+
+class FindProductsRangeForm(Form):
+    # TODO: Add jquery-ui support
+    start = DateField('From')
+    end = DateField('To')
+    submit = SubmitField(lazy_gettext('Find'))
+
