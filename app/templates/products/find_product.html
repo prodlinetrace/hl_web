@@ -5,11 +5,21 @@
 <div class="page-header">
     <h1>{{ _('Find Product') }}</h1>
 </div>
-<h3>Basic Product Search</h3>
+<h3>{{ _('Basic Product Search') }}</h3>
 {{ wtf.quick_form(basic_search_form) }}
 <br/>
-<h3>Find Products within date range</h3>
-{{ wtf.quick_form(date_range_search_form) }}
+<h3>{{ _('Find Products within date range') }}</h3>
+<form class="form form-inline" method="post" role="form">
+	<div class="input-daterange input-group" id="datepicker">
+		{{ date_range_search_form.hidden_tag() }}
+		{{ wtf.form_errors(date_range_search_form) }}
+		<span class="input-group-addon">{{ _('From') }}</span>
+		<input type="text" class="input-sm form-control" name="start" />
+		<span class="input-group-addon">{{ _('To') }}</span>
+		<input type="text" class="input-sm form-control" name="end" />
+	</div>
+		{{ wtf.form_field(date_range_search_form.submit) }} 
+</form>  
 
 {% endblock %}
 
@@ -17,8 +27,20 @@
 	{{ super() }}
 	<link rel="stylesheet" href="{{ url_for('static', filename='jquery-ui.css') }}" />
 	<script src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
-	
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datepicker3.standalone.css') }}" />
+	<script src="{{ url_for('static', filename='bootstrap-datepicker.js') }}"></script>
+    	
 	<script type="text/javascript">
+	   
+		$(' .input-daterange').datepicker({
+		    todayBtn: "linked",
+		    format: "yyyy-mm-dd",
+		    multidate: "yes",
+		    autoclose: true,
+		    calendarWeeks: true,
+		    todayHighlight: true
+		});
+
 		var product_type = $('#type').value;
 
 		$('#type').change(function() {

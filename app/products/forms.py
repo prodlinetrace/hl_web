@@ -4,6 +4,7 @@ from wtforms.fields.html5 import DateTimeField, DateField
 from wtforms.validators import Required, NumberRange, InputRequired, Length
 from flask.ext.pagedown.fields import PageDownField
 from flask.ext.babel import gettext, lazy_gettext
+from wtforms.fields.simple import TextField
 
 
 class ProductForm(Form):
@@ -46,8 +47,6 @@ class FindProductForm(Form):
 
 
 class FindProductsRangeForm(Form):
-    # TODO: Add jquery-ui support
-    start = DateField('From')
-    end = DateField('To')
+    start = TextField(lazy_gettext('From'))
+    end = TextField(lazy_gettext('To'))
     submit = SubmitField(lazy_gettext('Find'))
-
