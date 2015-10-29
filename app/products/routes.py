@@ -48,7 +48,7 @@ def find_product():
         total = query.count()
         result = query.all()
         if result is not None:
-            flash(gettext(u'{number} products found with date range: {start} to {end}.'.format(number=len(result), start=start_date, end=end_date)))
+            flash(gettext(u'{number} products found within date range: {start} to {end}.'.format(number=len(result), start=start_date, end=end_date)))
             return redirect(url_for('products.index', start_date=start_date, end_date=end_date))
 
 
