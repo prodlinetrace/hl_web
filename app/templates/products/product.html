@@ -28,6 +28,17 @@
 		    	{{ _('Program') }}: {{ product.program.name | safe }}
 	    	</div>
 	    {% endif %}
+	    {% if product.statuses %}
+		    <div class="product-main">
+		    	{{ _('Statuses (Total / Success / Failed)') }}: {{ product.statuses.count() }} / {{ product.statuses.filter(Status.status==1).count() }} / {{ product.statuses.filter(Status.status==2).count() }}
+	    	</div>
+	    {% endif %}
+
+	    {% if product.operations %}
+		    <div class="product-main">
+		    	{{ _('Operations (Total / Success / Failed)') }}: {{ product.operations.count() }} / {{ product.operations.filter(Operation.operation_status_id==1).count() }} / {{ product.operations.filter(Operation.operation_status_id==2).count() }}
+	    	</div>
+	    {% endif %}
 
 	<h3>{{ _('Status Overview') }}</h3>
 	<table cellspacing="0" id="statuses" class="tablesorter">

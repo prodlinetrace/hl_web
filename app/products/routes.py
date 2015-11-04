@@ -12,16 +12,25 @@ def index():
     page = request.args.get('page', 1, type=int)
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
+    status = request.args.get('status')
+    operation = request.args.get('operation')
     per_page = current_app.config['PRODUCTS_PER_PAGE']
     query = Product.query
     if start_date:
         query = query.filter(start_date <= Product.date_added)
     if end_date:
         query = query.filter(end_date >= Product.date_added)
+    if status:
+        # include in the list in case any of statuses is equal to searched status_id
+        query = query.filter(Product.statuses.any(Status.status==status))
+    if operation:
+        # include in the list in case one of operations is equal to searched operation_id
+        query = query.filter(Product.operations.any(Operation.operation_status_id==operation))
+
     total = query.count()
     products = query.order_by(Product.date_added.desc()).paginate(page, per_page, False).items
     pagination = Pagination(page=page, total=total, record_name='products', per_page=per_page)
-    return render_template('products/index.html', products=products, pagination=pagination)
+    return render_template('products/index.html', products=products, pagination=pagination, Status=Status, Operation=Operation)
 
 @products.route('/find_product', methods=['GET', 'POST'])
 def find_product():
@@ -29,31 +38,39 @@ def find_product():
     type_choices = [(unicode(row.type), unicode(row.type)) for row in type_query.all()]
     type_choices.insert(0, ("", "Select Product Type"))
     basic_search_form = FindProductForm(type_choices)
-    date_range_search_form = FindProductsRangeForm() 
+    detailed_search_form = FindProductsRangeForm()
 
     if basic_search_form.validate_on_submit():
         result = Product.query.filter_by(type=basic_search_form.type.data).filter_by(serial=basic_search_form.serial.data).first()
         if result is not None:
             flash(gettext(u'Product with serial {serial} found.'.format(serial=basic_search_form.serial.data)))
             return redirect(url_for('products.product', id=result.id))
-        
-    if date_range_search_form.validate_on_submit():
-        start_date = date_range_search_form.start.data
-        end_date = date_range_search_form.end.data
+        flash(gettext(u'Product with serial {serial} not found.'.format(serial=basic_search_form.serial.data)))
+
+    if detailed_search_form.validate_on_submit():
+        start_date = detailed_search_form.start.data
+        end_date = detailed_search_form.end.data
+        status = ""
+        operation = ""
         query = Product.query
         if start_date:
             query = query.filter(start_date <= Product.date_added)
         if end_date:
             query = query.filter(end_date >= Product.date_added)
+        if detailed_search_form.status_failed.data:
+            status = 2
+            query = query.filter(Product.statuses.any(Status.status==status))
+        if detailed_search_form.operation_failed.data:
+            operation = 2
+            query = query.filter(Product.operations.any(Operation.operation_status_id==operation))
         total = query.count()
         result = query.all()
         if result is not None:
-            flash(gettext(u'{number} products found within date range: {start} to {end}.'.format(number=len(result), start=start_date, end=end_date)))
-            return redirect(url_for('products.index', start_date=start_date, end_date=end_date))
+            flash(gettext(u'{number} products found with selected criteria.'.format(number=len(result), start=start_date, end=end_date)))
+            return redirect(url_for('products.index', start_date=start_date, end_date=end_date, status=status, operation=operation))
+        flash(gettext(u'No products are matching selected criteria.'.format(number=len(result), start=start_date, end=end_date)))
 
-
-        flash(gettext(u'Product with serial {serial} not found.'.format(serial=form.serial.data)))
-    return render_template('products/find_product.html', basic_search_form=basic_search_form, date_range_search_form=date_range_search_form)
+    return render_template('products/find_product.html', basic_search_form=basic_search_form, detailed_search_form=detailed_search_form)
 
 @products.route('/product/<id>', methods=['GET', 'POST'])
 def product(id):
@@ -79,7 +96,7 @@ def product(id):
     headers = {}
     if current_user.is_authenticated():
         headers['X-XSS-Protection'] = '0'
-    return render_template('products/product.html', product=product, form=form, comments=comments, pagination=pagination), 200, headers
+    return render_template('products/product.html', product=product, form=form, comments=comments, pagination=pagination, Status=Status, Operation=Operation), 200, headers
 
 @products.route('/edit/<id>', methods=['GET', 'POST'])
 @login_required

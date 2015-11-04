@@ -4,7 +4,7 @@ from wtforms.fields.html5 import DateTimeField, DateField
 from wtforms.validators import Required, NumberRange, InputRequired, Length
 from flask.ext.pagedown.fields import PageDownField
 from flask.ext.babel import gettext, lazy_gettext
-from wtforms.fields.simple import TextField
+from wtforms.fields.simple import TextField, BooleanField
 
 
 class ProductForm(Form):
@@ -45,8 +45,9 @@ class FindProductForm(Form):
         Form.__init__(self)
         self.type.choices = type_choices
 
-
 class FindProductsRangeForm(Form):
     start = TextField(lazy_gettext('From'))
     end = TextField(lazy_gettext('To'))
+    status_failed = BooleanField(lazy_gettext('Status Failed'))
+    operation_failed = BooleanField(lazy_gettext('Operation Failed'))
     submit = SubmitField(lazy_gettext('Find'))

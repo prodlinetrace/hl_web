@@ -7,19 +7,44 @@
 </div>
 <h3>{{ _('Basic Product Search') }}</h3>
 {{ wtf.quick_form(basic_search_form) }}
+
 <br/>
-<h3>{{ _('Find Products within date range') }}</h3>
+<h3>{{ _('Detailed Product Search') }}</h3>
 <form class="form form-inline" method="post" role="form">
 	<div class="input-daterange input-group" id="datepicker">
-		{{ date_range_search_form.hidden_tag() }}
-		{{ wtf.form_errors(date_range_search_form) }}
-		<span class="input-group-addon">{{ _('From') }}</span>
-		<input type="text" class="input-sm form-control" name="start" />
-		<span class="input-group-addon">{{ _('To') }}</span>
-		<input type="text" class="input-sm form-control" name="end" />
+		{{ detailed_search_form.hidden_tag() }}
+		{{ wtf.form_errors(detailed_search_form) }}
+		<div>
+			<label class="col-sm-2 control-label" for="start">{{ _('Start Date') }}</label>
+			<div class="col-sm-2">
+				<input type="text" class="input-sm form-control" name="start" />
+			</div>
+		</div>
+		<br/><br/>
+		<div>
+			<label class="col-sm-2 control-label " for="end">{{ _('End Date') }}</label>
+			<div class="col-sm-2">
+				<input type="text" class="input-sm form-control" name="end" />
+			</div>
+		</div>
 	</div>
-		{{ wtf.form_field(date_range_search_form.submit) }} 
-</form>  
+	<br/>
+	<div>
+		<label class="col-sm-2 control-label " for="status_failed">{{ _('Status Failed') }}</label>
+		<div class="col-sm-2">
+			<input type="checkbox" name="status_failed"/>
+		</div>
+	</div>
+	<br/><br/>
+	<div>
+		<label class="col-sm-2 control-label " for="operation_failed">{{ _('Operation Failed') }}</label>
+		<div class="col-sm-2">
+			<input type="checkbox" name="operation_failed"/>
+		</div>
+	</div>
+	<br/><br/>
+		{{ wtf.form_field(detailed_search_form.submit) }}
+</form>
 
 {% endblock %}
 
@@ -29,9 +54,9 @@
 	<script src="{{ url_for('static', filename='jquery-ui.js') }}"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datepicker3.standalone.css') }}" />
 	<script src="{{ url_for('static', filename='bootstrap-datepicker.js') }}"></script>
-    	
+
 	<script type="text/javascript">
-	   
+
 		$(' .input-daterange').datepicker({
 		    todayBtn: "linked",
 		    format: "yyyy-mm-dd",
