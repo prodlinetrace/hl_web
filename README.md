@@ -1,4 +1,4 @@
-ProdLineTraceWeb - Web Frontend for ProdLineTrace app.
+TraceWeb - Web Frontend for Trace app.
 ================
 
 Pre-requisites
@@ -10,7 +10,7 @@ Pre-requisites
 Requirements
 ------------
 
-- Python 2.7 or 3.3+ on any supported OS (even Windows!)
+- Python 2.7 or 3.4+ on any supported OS (even Windows!)
 - virtualenv (or pyvenv if you are using Python 3.4)
 - git
 - Network connection (only to install the application)
@@ -23,8 +23,8 @@ Below are step-by-step installation instructions:
 
 **Step 1**: Clone the git repository
 
-    $ git clone https://bitbucket.org/wilkpio/prodlinetraceweb.git
-    $ cd prodlinetraceweb
+    $ git clone https://bitbucket.org/wilkpio/traceweb.git
+    $ cd traceweb
 
 **Step 2**: Create a virtual environment.
 
@@ -53,7 +53,6 @@ For Windows users working on the standard command prompt:
     >>> generate_password_hash('admin12')
     'pbkdf2:sha1:1000$dGRfs0GT$4db5f6c1187ee2e8d4013597d72332a69d435b21'
     >>> 
-    
 
 **Step 4**: Start the application:
 
