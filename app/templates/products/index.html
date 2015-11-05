@@ -21,9 +21,10 @@
 	        .tablesorter({
 	        	theme: 'blue',
 	            	headers: {
+	                	2: { sorter:'text' },
 	                	3: { sorter:'text' } // force third column as text - see tablesorter bug: http://stackoverflow.com/questions/9733450/jquery-tablesorter-hyphen-bug
 	            	},
-	            	sortList: [[3,1]],  // sort by date_added on load (descending)
+	            	sortList: [[2,1]],  // sort by date_added on load (descending)
 	        		widgets: ["zebra", "filter"],
 	            	widgetOptions: {
 	            	      filter_columnFilters: true,

@@ -18,11 +18,11 @@
 }
 
 .id {
-	width: 80px;
+	width: 3em;
 }
 
 .date {
-	width: 200px;
+	width: 20em;
 }
 
 .name {
@@ -43,11 +43,11 @@
 }
 
 .serial {
-	width: 100px;
+	width: 20em;
 }
 
 .type {
-	width: 120px;
+	width: 10em;
 }
 
 .left {

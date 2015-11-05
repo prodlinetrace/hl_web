@@ -21,12 +21,12 @@
    	<tbody>
 		{% for product in products %}
 		<tr>
-			<td class="right"><a href="{{ url_for('products.product', id=product.id) }}">{{ product.id }}</a></td>
+			<td class="right id"><a href="{{ url_for('products.product', id=product.id) }}">{{ product.id }}</a></td>
 			<!--
-			<td class="right">{{ product.type }}</td>
+			<td class="right type">{{ product.type }}</td>
 			-->
-			<td class="right">{{ product.serial }}</td>
-   			<td class="right">{{ product.date_added }}</td>
+			<td class="right serial">{{ product.serial }}</td>
+   			<td class="right date">{{ product.date_added }}</td>
 			<td class="right"><a href="{{ url_for('programs.program', id=product.program.id) }}">{{ product.program.name }}</a></td>
 			<td class="right">{{ product.statuses.filter(Status.status==1).count() }}</td>
 			<td class="right" {% if product.statuses.filter(Status.status==2).count() != 0 %} id="red" {% endif %}>{{ product.statuses.filter(Status.status==2).count() }}</td>
