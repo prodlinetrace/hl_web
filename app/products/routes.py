@@ -1,4 +1,6 @@
-from flask import render_template, flash, redirect, url_for, abort, request, current_app
+from StringIO import StringIO
+import csv
+from flask import render_template, flash, redirect, url_for, abort, request, current_app, make_response
 from flask.ext.login import login_required, current_user
 from flask.ext.babel import gettext
 from flask.ext.paginate import Pagination
@@ -31,6 +33,44 @@ def index():
     products = query.order_by(Product.date_added.desc()).paginate(page, per_page, False).items
     pagination = Pagination(page=page, total=total, record_name='products', per_page=per_page)
     return render_template('products/index.html', products=products, pagination=pagination, Status=Status, Operation=Operation)
+
+@products.route('/download')
+def download(start_date=None, end_date=None, status=None, operation=None):
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    status = request.args.get('status')
+    operation = request.args.get('operation')
+    query = Product.query
+    if start_date:
+        query = query.filter(start_date <= Product.date_added)
+    if end_date:
+        query = query.filter(end_date >= Product.date_added)
+    if status:
+        # include in the list in case any of statuses is equal to searched status_id
+        query = query.filter(Product.statuses.any(Status.status==status))
+    if operation:
+        # include in the list in case one of operations is equal to searched operation_id
+        query = query.filter(Product.operations.any(Operation.operation_status_id==operation))
+
+    csv_header = ['Id', 'Serial', 'Date Added', 'Program', 'Success Statuses', 'Failed Statuses', 'Success Operations', 'Failed Operations']
+    buffer = StringIO()
+    writer = csv.writer(buffer, delimiter=',')
+    writer.writerow(csv_header)
+
+    products = query.order_by(Product.date_added.desc()).all()
+    for product in products:
+        row = ["_{id}".format(id=product.id), "_{sn}".format(sn=product.serial), " {date}".format(date=product.date_added), product.program.name]
+        row.append(product.statuses.filter(Status.status==1).count())
+        row.append(product.statuses.filter(Status.status==2).count())
+        row.append(product.operations.filter(Operation.operation_status_id==1).count())
+        row.append(product.operations.filter(Operation.operation_status_id==2).count())
+        #row.append(product.id)
+        writer.writerow(row)
+
+    output = make_response(buffer.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename={name}.csv".format(name=current_app.config['NAME'])
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 @products.route('/find_product', methods=['GET', 'POST'])
 def find_product():

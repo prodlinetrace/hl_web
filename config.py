@@ -3,6 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    NAME = 'TRCWeb'
     SECRET_KEY = os.environ.get('SECRET_KEY')
     USERS_PER_PAGE = 20
     STATIONS_PER_PAGE = 100
@@ -17,7 +18,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI_PREFIX = 'sqlite:///'
     BOOTSTRAP_SERVE_LOCAL = True
     LANGUAGES = (('en', 'English'), ('pl', 'Polish'))
-    VERSION = '1.5.4'
+    VERSION = '1.5.5'
     DBMODEL_VERSION = "None"
     BABEL_DEFAULT_LOCALE = 'pl'
     MODE = False

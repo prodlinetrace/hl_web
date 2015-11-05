@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}{{ _('TRCWeb - Traceability Frontend - ') }} {{ config.VERSION }}{% endblock %}
+{% block title %}{{ config.NAME }}{{ _(' - Traceability Frontend - ') }} {{ config.VERSION }}{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -69,7 +69,7 @@
 </div>.
 <div id="footer">
   {% block footer %}
-  	ProdLineTraceWeb v:{{ config.VERSION }} (dbmodel:{{ config.DBMODEL_VERSION }}) <a href="{{ url_for('statistics.index') }}">{{ _('stats') }}</a> &copy; Copyright 2015 by <a href="mailto:Piot.Wilkosz@gmail.com">Piotr Wilkosz</a>.
+  	{{ config.NAME }} v:{{ config.VERSION }} (dbmodel:{{ config.DBMODEL_VERSION }}) <a href="{{ url_for('statistics.index') }}">{{ _('stat') }}</a> &copy; Copyright 2015 by <a href="mailto:Piot.Wilkosz@gmail.com">Piotr Wilkosz</a>.
   {% endblock %}
 </div>
 {% endblock %}
