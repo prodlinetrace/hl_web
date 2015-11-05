@@ -21,7 +21,7 @@
    	<tbody>
 		{% for product in products %}
 		<tr>
-			<td class="right"><a href="{{ url_for('products.product', id=product.id) }}">{{ product.id }}</a></td>
+			<td class="right"><a href="{{ url_for('products.product', id=product.id) }}" title="open product details">{{ product.id }}</a></td>
 			<!--
 			<td class="right">{{ product.type }}</td>
 			-->
