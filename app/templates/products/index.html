@@ -5,6 +5,9 @@
 	{{ pagination.links }}
 </ul>
 	{% include "products/_products.html" %}
+<div class="csv-export">
+	<a href="{{ url_for('products.download', start_date=request.args.get('start_date') | safe, end_date=request.args.get('end_date') | safe, status=request.args.get('status') | safe, operation=request.args.get('operation') | safe) | safe}}" title="{{products.download | safe}}"><img src="/static/csv.png" height="42" width="42" alt="export to csv" title="export to csv"/></a>
+</div>
 <ul class="pager">
 	{{ pagination.info }}
 	{{ pagination.links }}
