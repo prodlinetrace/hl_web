@@ -59,7 +59,7 @@ def download(start_date=None, end_date=None, status=None, operation=None):
 
     products = query.order_by(Product.date_added.desc()).all()
     for product in products:
-        row = ["_{id}".format(id=product.id), "_{sn}".format(sn=product.serial), " {date}".format(date=product.date_added), product.program.name]
+        row = ["{id}".format(id=product.id), "{sn}".format(sn=product.serial), " {date}".format(date=product.date_added), product.program.name]
         row.append(product.statuses.filter(Status.status==1).count())
         row.append(product.statuses.filter(Status.status==2).count())
         row.append(product.operations.filter(Operation.operation_status_id==1).count())
