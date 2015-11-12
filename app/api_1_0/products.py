@@ -7,9 +7,12 @@ from . import webapi
 from .errors import forbidden, bad_request
 from flask.ext.babel import gettext
 
-@webapi.route('/products/<int:id>', methods=['DELETE'])
+@webapi.route('/products/<id>', methods=['DELETE'])
 def delete_product(id):
-    product = Product.query.get_or_404(id)
+
+    product = Product.query.filter_by(id=id).first()
+    if product is None:
+        abort(404)
     if not g.current_user.is_admin:
         return forbidden(gettext('You cannot modify this product.'))
     comments = Comment.query.filter_by(product_id=product.id)
