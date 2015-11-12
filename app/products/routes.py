@@ -41,14 +41,14 @@ def download(start_date=None, end_date=None, status=None, operation=None):
     status = request.args.get('status')
     operation = request.args.get('operation')
     query = Product.query
-    if start_date:
+    if start_date and start_date!='':
         query = query.filter(start_date <= Product.date_added)
-    if end_date:
+    if end_date and end_date!='':
         query = query.filter(end_date >= Product.date_added)
-    if status:
+    if status and status!='':
         # include in the list in case any of statuses is equal to searched status_id
         query = query.filter(Product.statuses.any(Status.status==status))
-    if operation:
+    if operation and operation!='':
         # include in the list in case one of operations is equal to searched operation_id
         query = query.filter(Product.operations.any(Operation.operation_status_id==operation))
 
