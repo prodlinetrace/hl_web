@@ -53,6 +53,7 @@
 	            <th class="id">{{ _('Ident') }}</th>
 	            <th class="name">{{ _('Station') }}</th>
 	            <th class="status">{{ _('Status') }}</th>
+	            <th class="status">{{ _('Program') }}</th>
 	            <th class="user">{{ _('User') }}</th>
 	            <th class="date">{{ _('Date') }}</th>
 	            <th class="extras">{{ _('Extras') }}</th>
@@ -64,7 +65,8 @@
    				<td class="right">{{ status.id }}</td>
 				{% if status.station %}<td><a href="{{ url_for('stations.station', id=status.station.id) | safe}}" title="{{status.station.ip | safe}}">{{ status.station.name }}</a></td> {% else %} <td>{{ _('undefined value') }}</td> {% endif %}
 				{% if status.status_name %} <td {% if status.status_name.id == 2 %} id="red" {% endif %} {% if status.status_name.id == 1 %} id="green" {% endif %}><a href="{{ url_for('operation_statuses.operation_status', id=status.status_name.id) | safe}}" title="{{status.status_name.description | safe}}">{{ status.status_name.name }}</a></td> {% else %} <td>{{ _('undefined value') }}</td> {% endif %}
-				{% if status.user %} <td><a href="{{  url_for('users.user', login=status.user.login) |safe}}" title="{{status.user.name | safe}}">{{ status.user.name }}</a></td> {% else %} <td>{{ _('undefined value') }}</td> {% endif %}
+				{% if status.program %} <td><a href="{{  url_for('programs.program', id=status.program.id) | safe}}" title="{{status.program.name | safe}}">{{ status.program.name }}</a></td> {% else %} <td>{{ _('undefined value') }}</td> {% endif %}
+				{% if status.user %} <td><a href="{{  url_for('users.user', login=status.user.login) | safe}}" title="{{status.user.name | safe}}">{{ status.user.name }}</a></td> {% else %} <td>{{ _('undefined value') }}</td> {% endif %}
     			<td>{{ status.date_time }} </td>
     			<td>
 	    			{% if current_user.is_admin  %}
