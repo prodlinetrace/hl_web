@@ -23,11 +23,6 @@
 		    	{{ _('Date Added') }}: {{ product.date_added | safe }}
 	    	</div>
 	    {% endif %}
-	    {% if product.program_id %}
-		    <div class="product-main">
-		    	{{ _('Program') }}: {{ product.program.name | safe }}
-	    	</div>
-	    {% endif %}
 	    {% if product.statuses %}
 		    <div class="product-main">
 		    	{{ _('Statuses (Total / Success / Failed)') }}: {{ product.statuses.count() }} / {{ product.statuses.filter(Status.status==1).count() }} / {{ product.statuses.filter(Status.status==2).count() }}
