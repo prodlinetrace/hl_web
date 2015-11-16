@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-__version__ = '1.3.4'
+__version__ = '1.3.5'
 
 
 class User(UserMixin, db.Model):
@@ -110,17 +110,15 @@ class Product(db.Model):
     type = db.Column(db.String(10), nullable=False, index=True)
     serial = db.Column(db.String(20), nullable=False, index=True)
     date_added = db.Column(db.String(40), index=True)
-    program_id = db.Column(db.String(20), db.ForeignKey('program.id'))
 
     comments = db.relationship('Comment', lazy='dynamic', backref='product')
     statuses = db.relationship('Status', lazy='dynamic', backref='product')
     operations = db.relationship('Operation', lazy='dynamic', backref='product')
 
-    def __init__(self, serial, prodtype='0000000000', program_id='', date=None):
+    def __init__(self, serial, prodtype='0000000000', date=None):
         self.serial = serial
         self.type = prodtype
         self.id = self.get_product_id(self.type, self.serial)
-        self.program_id = program_id
         if date is None:
             date = datetime.now()
         self.date_added = str(date)
@@ -356,7 +354,6 @@ class Program(db.Model):
     name = db.Column(db.String(64))
     description = db.Column(db.String(255))
     operations = db.relationship('Operation', lazy='dynamic', backref='program', foreign_keys='Operation.program_id')
-    products = db.relationship('Product', lazy='dynamic', backref='program', foreign_keys='Product.program_id')
     statuses = db.relationship('Status', lazy='dynamic', backref='program', foreign_keys='Status.program_id')
 
     def __init__(self, ident, name="Default Program Name", description="Default Program Description"):
