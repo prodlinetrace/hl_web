@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-__version__ = '1.3.5'
+__version__ = '1.3.6'
 
 
 class User(UserMixin, db.Model):
@@ -149,7 +149,6 @@ class Product(db.Model):
             'id': self.id,
             'serial': self.serial,
             'type': self.type,
-            'program': self.program,
         }
 
 
