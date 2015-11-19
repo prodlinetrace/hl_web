@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-__version__ = '1.3.6'
+__version__ = '1.3.7'
 
 
 class User(UserMixin, db.Model):
@@ -128,7 +128,7 @@ class Product(db.Model):
 
     @staticmethod
     def calculate_product_id(_type=None, _serial=None):
-        return str(_type).zfill(10) + str(_serial).zfill(20)
+        return str(_type).zfill(10) + str(_serial).zfill(18)
 
     def get_product_id(self, _type=None, _serial=None):
         """
