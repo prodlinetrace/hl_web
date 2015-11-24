@@ -206,16 +206,19 @@
 		    {
 				$("#statuses").tablesorter({
 					theme: 'blue',
-			    	sortList: [[4,1], [0,1]],  // sort by date on load
+			    	sortList: [[5,1], [0,1]],  // sort by date on load
 				    headers: {
-				        4: { sorter:'text' } // force third column as text - see tablesorter bug: http://stackoverflow.com/questions/9733450/jquery-tablesorter-hyphen-bug
+				        4: { sorter:'text' }, // see tablesorter bug: http://stackoverflow.com/questions/9733450/jquery-tablesorter-hyphen-bug
+				        5: { sorter:'text' }
 				    }
 				});
 		        $("#operations").tablesorter({
 		        	theme: 'blue',
-		        	sortList: [[4,1], [0,1]],  // sort by date on load
+		        	sortList: [[5,1], [0,1]],  // sort by date on load
 		            headers: {
-		                4: { sorter:'text' } // force fourth column as text - see tablesorter bug: http://stackoverflow.com/questions/9733450/jquery-tablesorter-hyphen-bug
+		            	3: { sorter:'text' },
+		                4: { sorter:'text' }, // column as text - see tablesorter bug: http://stackoverflow.com/questions/9733450/jquery-tablesorter-hyphen-bug
+		                5: { sorter:'text' }
 		            }
 		        });
 		    }
