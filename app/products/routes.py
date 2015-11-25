@@ -52,14 +52,14 @@ def download(start_date=None, end_date=None, status=None, operation=None):
         # include in the list in case one of operations is equal to searched operation_id
         query = query.filter(Product.operations.any(Operation.operation_status_id==operation))
 
-    csv_header = ['Id', 'Serial', 'Date Added', 'Program', 'Success Statuses', 'Failed Statuses', 'Success Operations', 'Failed Operations']
+    csv_header = ['Id', 'Type', 'Serial', 'Date Added', 'Success Statuses', 'Failed Statuses', 'Success Operations', 'Failed Operations']
     buffer = StringIO()
     writer = csv.writer(buffer, delimiter=',')
     writer.writerow(csv_header)
 
     products = query.order_by(Product.date_added.desc()).all()
     for product in products:
-        row = ["{id}".format(id=product.id), "{sn}".format(sn=product.serial), " {date}".format(date=product.date_added), product.program.name]
+        row = ["{id}".format(id=product.id), "{type}".format(type=product.type), "{sn}".format(sn=product.serial), " {date}".format(date=product.date_added)]
         row.append(product.statuses.filter(Status.status==1).count())
         row.append(product.statuses.filter(Status.status==2).count())
         row.append(product.operations.filter(Operation.operation_status_id==1).count())
@@ -144,8 +144,7 @@ def edit_product(id):
     product = Product.query.get_or_404(id)
     if not current_user.is_admin and product.author != current_user:
         abort(403)
-    program_choices = [(unicode(program.id), unicode("[{id}] - {name}".format(id=program.id, name=program.name))) for program in Program.query.order_by(Program.id.asc())]
-    form = ProductForm(program_choices)
+    form = ProductForm()
     if form.validate_on_submit():
         form.to_model(product)
         db.session.add(product)
