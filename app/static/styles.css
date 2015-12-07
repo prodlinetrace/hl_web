@@ -22,20 +22,31 @@
 }
 
 .date {
-	width: 20em;
+	width: 24em;
 }
 
 .name {
-	width: 200px;
+	width: 20em;
+}
+
+.user {
+}
+
+.program {
+	width: 20em;
+}
+
+.program_num {
+	width: 3em;
 }
 
 .value {
-	width: 50px;
+	width: 5em;
 	text-align: right;  
 }
 
 .status {
-	width: 50px;
+	width: 5em;
 }
 
 .extras {
@@ -51,7 +62,7 @@
 }
 
 .doublename {
-	width: 400px;
+	width: 40em;
 }
 
 
