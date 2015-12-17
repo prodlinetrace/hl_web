@@ -4,9 +4,7 @@
 	<td><a href="{{ url_for('units.unit', id=unit.id) }}">{{ unit.symbol }}</a></td>
 	<td>{{ unit.description }}</td>
 	<td class="extras">
-	    {% if not current_user.is_admin  %}
-	    <a class="btn btn-primary pull-right" href="{{ url_for('units.edit', id=unit.id) }}">{{ _('Edit') }}</a>
-	    {% else %}
+	    {% if current_user.is_admin  %}
 	    <a class="btn btn-danger pull-right" href="{{ url_for('units.delete', id=unit.id) }}">{{ _('Delete') }}</a>
 	    <a class="btn btn-primary pull-right" href="{{ url_for('units.edit', id=unit.id) }}">{{ _('Edit') }}</a>
 	    {% endif %}

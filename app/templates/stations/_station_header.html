@@ -8,9 +8,7 @@
 	<td class="right">{{ station.statuses.count() }}</td>
 	<td class="right">{{ station.operations.count() }}</td>
 	<td>
-	    {% if not current_user.is_admin %}
-	    <a class="btn btn-primary pull-right" href="{{ url_for('stations.edit', id=station.id) }}">{{ _('Edit') }}</a>
-	    {% else %}
+	    {% if current_user.is_admin %}
 	    <a class="btn btn-danger pull-right" href="{{ url_for('stations.delete', id=station.id) }}">{{ _('Delete') }} </a>
 	    <a class="btn btn-primary pull-right" href="{{ url_for('stations.edit', id=station.id) }}">{{ _('Edit') }} </a>
 	    {% endif %}

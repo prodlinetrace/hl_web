@@ -3,9 +3,7 @@
 	<td><a href="{{ url_for('programs.program', id=program.id) }}">{{ program.name }}</a></td>
 	<td>{{ program.description }}</td>
 	<td class="extras">
-	    {% if not current_user.is_admin  %}
-	    <a class="btn btn-primary pull-right" href="{{ url_for('programs.edit', id=program.id) }}">{{ _('Edit') }}</a>
-	    {% else %}
+	    {% if current_user.is_admin  %}
 	    <a class="btn btn-danger pull-right" href="{{ url_for('programs.delete', id=program.id) }}">{{ _('Delete') }}</a>
 	    <a class="btn btn-primary pull-right" href="{{ url_for('programs.edit', id=program.id) }}">{{ _('Edit') }}</a>
 	    {% endif %}
