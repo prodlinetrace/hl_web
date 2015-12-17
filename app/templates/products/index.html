@@ -5,9 +5,11 @@
 	{{ pagination.links }}
 </ul>
 	{% include "products/_products.html" %}
-<div class="csv-export">
-	<a href="{{ url_for('products.download', start_date=request.args.get('start_date'), end_date=request.args.get('end_date'), status=request.args.get('status'), operation=request.args.get('operation')) | safe}}" title="{{products.download | safe}}"><img src="/static/csv.png" height="42" width="42" alt="export to csv" title="export to csv"/></a>
-</div>
+	{% if config.CSV %}	
+		<div class="csv-export">
+			<a href="{{ url_for('products.download', start_date=request.args.get('start_date'), end_date=request.args.get('end_date'), status=request.args.get('status'), operation=request.args.get('operation')) | safe}}" title="{{products.download | safe}}"><img src="/static/csv.png" height="42" width="42" alt="export to csv" title="export to csv"/></a>
+		</div>
+	{% endif %}
 <ul class="pager">
 	{{ pagination.info }}
 	{{ pagination.links }}

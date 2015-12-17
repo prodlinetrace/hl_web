@@ -22,6 +22,7 @@ class Config:
     DBMODEL_VERSION = "None"
     BABEL_DEFAULT_LOCALE = 'pl'
     MODE = False
+    CSV = True
 
     STATION_STATUS_CODES = {
         0: {"result": "UNDEFINED", "desc": "status undefined (not present in database)"},
