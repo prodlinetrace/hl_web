@@ -45,3 +45,14 @@ class FindProductsRangeForm(Form):
     status_failed = BooleanField(lazy_gettext('Status Failed'))
     operation_failed = BooleanField(lazy_gettext('Operation Failed'))
     submit = SubmitField(lazy_gettext('Find'))
+    
+
+class ExportProductsRangeForm(Form):
+    start = TextField(lazy_gettext('From'))
+    end = TextField(lazy_gettext('To'))
+    type = SelectField(lazy_gettext('Operation Type'), validators=[Required()])
+    submit = SubmitField(lazy_gettext('Find'))
+        
+    def __init__(self, type_choices):
+        Form.__init__(self)
+        self.type.choices = type_choices

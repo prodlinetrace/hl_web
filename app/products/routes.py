@@ -7,7 +7,7 @@ from flask.ext.paginate import Pagination
 from .. import db, babel, cfg
 from ..models import *
 from . import products
-from .forms import ProductForm, CommentForm, FindProductForm, FindProductsRangeForm
+from .forms import ProductForm, CommentForm, FindProductForm, FindProductsRangeForm, ExportProductsRangeForm
 
 @products.route('/')
 def index():
@@ -111,6 +111,66 @@ def find_product():
         flash(gettext(u'No products are matching selected criteria.'.format(number=len(result), start=start_date, end=end_date)))
 
     return render_template('products/find_product.html', basic_search_form=basic_search_form, detailed_search_form=detailed_search_form)
+
+@products.route('/export_csv', methods=['GET', 'POST'])
+def export_csv():
+    #type_query = db.session.query(Operation_Type.name.distinct().label("type"))
+    type_query = Operation_Type.query
+    operation_types = [(unicode(row.id), unicode(row.name)) for row in type_query.all()]
+    operation_types.insert(0, ("", "Select Operation Type"))
+    search_form = ExportProductsRangeForm(operation_types)
+
+    if search_form.validate_on_submit():
+        start_date = search_form.start.data
+        end_date = search_form.end.data
+        query = Product.query
+        if start_date:
+            query = query.filter(start_date <= Product.date_added)
+        if end_date:
+            query = query.filter(end_date >= Product.date_added)
+        if search_form.type.data:
+            query = query.filter(Product.operations.any(Operation.operation_type_id==search_form.type.data))
+        total = query.count()
+        result = query.all()
+        if result is not None:
+            flash(gettext(u'{number} products found with selected criteria.'.format(number=len(result), start=start_date, end=end_date)))
+            return redirect(url_for('products.export', start_date=start_date, end_date=end_date, operation_type_id=search_form.type.data))
+        flash(gettext(u'No products are matching selected criteria.'.format(number=len(result), start=start_date, end=end_date)))
+
+    return render_template('products/export_csv.html', search_form=search_form)
+
+@products.route('/export')
+def export(start_date=None, end_date=None, operation_type_id=None):
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    operation_type_id = request.args.get('operation_type_id')
+    query = Product.query
+    if start_date and start_date!='':
+        query = query.filter(start_date <= Product.date_added)
+    if end_date and end_date!='':
+        query = query.filter(end_date >= Product.date_added)
+    #if operation_type_id and operation_type_id!='':
+    #        query = query.filter(Product.operations.any(Operation.operation_type_id==operation_type_id))
+
+    csv_header = ['Id', 'Type', 'Serial', 'Date Added', 'Operation Type Id', 'Operation Name', 'Result 1', 'Result 2']
+    buffer = StringIO()
+    writer = csv.writer(buffer, delimiter=',')
+    writer.writerow(csv_header)
+
+    products = query.order_by(Product.date_added.desc()).all()
+    for product in products:
+        row = ["{id}".format(id=product.id), "{type}".format(type=product.type), "{sn}".format(sn=product.serial), " {date}".format(date=product.date_added)]
+        row.append(operation_type_id)
+        row.append((Operation_Type.query.filter_by(id=operation_type_id).first().name).encode("utf-8"))
+        if product.operations.filter(Operation.operation_type_id==operation_type_id).count() >0:
+            row.append(product.operations.filter(Operation.operation_type_id==operation_type_id).first().result_1)
+            row.append(product.operations.filter(Operation.operation_type_id==operation_type_id).first().result_2)
+        writer.writerow(row)
+
+    output = make_response(buffer.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename={name}-export-opertation_type_id-{operation_type_id}.csv".format(name=current_app.config['NAME'], operation_type_id=operation_type_id)
+    output.headers["Content-type"] = "text/csv"
+    return output
 
 @products.route('/product/<id>', methods=['GET', 'POST'])
 def product(id):
