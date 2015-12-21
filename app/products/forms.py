@@ -1,10 +1,10 @@
 from flask.ext.wtf import Form
-from wtforms import SubmitField, IntegerField, SelectField, StringField
+from wtforms import SubmitField, IntegerField, SelectField, StringField, BooleanField
 from wtforms.fields.html5 import DateTimeField, DateField
 from wtforms.validators import Required, NumberRange, InputRequired, Length
 from flask.ext.pagedown.fields import PageDownField
 from flask.ext.babel import gettext, lazy_gettext
-from wtforms.fields.simple import TextField, BooleanField
+#from wtforms.fields.simple import 
 
 
 class ProductForm(Form):
@@ -40,16 +40,16 @@ class FindProductForm(Form):
 
 
 class FindProductsRangeForm(Form):
-    start = TextField(lazy_gettext('From'))
-    end = TextField(lazy_gettext('To'))
+    start = StringField(lazy_gettext('From'))
+    end = StringField(lazy_gettext('To'))
     status_failed = BooleanField(lazy_gettext('Status Failed'))
     operation_failed = BooleanField(lazy_gettext('Operation Failed'))
     submit = SubmitField(lazy_gettext('Find'))
     
 
 class ExportProductsRangeForm(Form):
-    start = TextField(lazy_gettext('From'))
-    end = TextField(lazy_gettext('To'))
+    start = StringField(lazy_gettext('From'))
+    end = StringField(lazy_gettext('To'))
     type = SelectField(lazy_gettext('Operation Type'), validators=[Required()])
     submit = SubmitField(lazy_gettext('Find'))
         

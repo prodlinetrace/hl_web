@@ -6,38 +6,29 @@
     <h1>{{ _('Export Criteria') }}</h1>
 </div>
 <h3>{{ _('Detailed CSV Export') }}</h3>
-{{ wtf.quick_form(search_form) }}
-
 <!--
+{{ wtf.quick_form(search_form) }}
+-->
 <h3>{{ _('Detailed Product Search') }}</h3>
 <form class="form form-inline" method="post" role="form">
 	<div class="input-daterange input-group" id="datepicker">
-		{{ search_form.hidden_tag() }}
 		{{ wtf.form_errors(search_form) }}
 		<div>
-			<label class="col-sm-2 control-label" for="start">{{ _('Start Date') }}</label>
-			<div class="col-sm-2">
-				<input type="text" class="input-sm form-control" name="start" />
-			</div>
+			<label class="control-label" for="start">{{ _('Start Date') }}</label>
+			<input type="text" class="form-control" name="start" />
 		</div>
-		<br/><br/>
 		<div>
-			<label class="col-sm-2 control-label " for="end">{{ _('End Date') }}</label>
-			<div class="col-sm-2">
-				<input type="text" class="input-sm form-control" name="end" />
-			</div>
+			<label class="control-label" for="end">{{ _('End Date') }}</label>
+			<input type="text" class="form-control" name="end" />
 		</div>
 	</div>
 	<div>
-		<label class="col-sm-2 control-label " for="type">{{ _('Operation Type') }}</label>
-		<div class="col-sm-2">
-			<select class="form-control" id="type" name="type"><option value="">Select Operation Type</option></select>
-		</div>
+			{{ wtf.form_field(search_form.type) }}
 	</div>
 	<br/><br/>
+	{{ search_form.csrf_token() }}
 	{{ wtf.form_field(search_form.submit) }}
 </form>
--->
 
 {% endblock %}
 
