@@ -7,7 +7,7 @@ from flask.ext.paginate import Pagination
 from .. import db, babel, cfg
 from ..models import *
 from . import products
-from .forms import ProductForm, CommentForm, FindProductForm, FindProductsRangeForm, ExportProductsRangeForm
+from .forms import ProductForm, CommentForm, FindProductForm, FindProductsRangeForm, ExportProductsRangeForm, HandScannerSearchForm
 
 @products.route('/')
 def index():
@@ -79,6 +79,7 @@ def find_product():
     type_choices.insert(0, ("", "Select Product Type"))
     basic_search_form = FindProductForm(type_choices)
     detailed_search_form = FindProductsRangeForm()
+    hand_scanner_search_form = HandScannerSearchForm()
 
     if basic_search_form.validate_on_submit():
         result = Product.query.filter_by(type=basic_search_form.type.data).filter_by(serial=basic_search_form.serial.data).first()
@@ -110,7 +111,7 @@ def find_product():
             return redirect(url_for('products.index', start_date=start_date, end_date=end_date, status=status, operation=operation))
         flash(gettext(u'No products are matching selected criteria.'.format(number=len(result), start=start_date, end=end_date)))
 
-    return render_template('products/find_product.html', basic_search_form=basic_search_form, detailed_search_form=detailed_search_form)
+    return render_template('products/find_product.html', basic_search_form=basic_search_form, detailed_search_form=detailed_search_form, hand_scanner_search_form=hand_scanner_search_form)
 
 @products.route('/export_csv', methods=['GET', 'POST'])
 def export_csv():

@@ -45,7 +45,17 @@ class FindProductsRangeForm(Form):
     status_failed = BooleanField(lazy_gettext('Status Failed'))
     operation_failed = BooleanField(lazy_gettext('Operation Failed'))
     submit = SubmitField(lazy_gettext('Find'))
+
+
+class HandScannerSearchForm(Form):
+    product = StringField(lazy_gettext('Scan Product'))
+    new_window = BooleanField(lazy_gettext('New Window'))
+    submit = SubmitField(lazy_gettext('Find'))
     
+    def __init__(self):
+        Form.__init__(self)
+        self.submit.id='product_button'
+
 
 class ExportProductsRangeForm(Form):
     start = StringField(lazy_gettext('From'))

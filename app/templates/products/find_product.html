@@ -6,86 +6,35 @@
     <h1>{{ _('Find Product') }}</h1>
 </div>
 <h3>{{ _('Hand Scanner Search') }}</h3>
-<form class="form form-inline" method="post" role="form">
-	<div>
-		<label class="col-sm-2 control-label" for="product">{{ _('Scan Product') }}</label>
-		<div class="col-sm-3">
-			<input type="text" class="input-sm form-control" name="product" size="50" id="product"/>
-			<input type="button" name="find" value="find" id="product_button"/>
-		</div>
-	</div>
-	<br/><br/>
-	<div>
-		<label class="col-sm-2 control-label " for="new_window">{{ _('New Window') }}</label>
-		<div class="col-sm-2">
-			<input type="checkbox" name="new_window" id="new_window" checked/>
-		</div>
-	</div>
-
+<form class="form" method="post" role="form" action="javascript:void(0);">
+	{{ wtf.form_errors(hand_scanner_search_form) }}
+	{{ wtf.form_field(hand_scanner_search_form.product) }}
+	{{ wtf.form_field(hand_scanner_search_form.new_window) }}
+	{{ hand_scanner_search_form.csrf_token() }}
+	{{ wtf.form_field(hand_scanner_search_form.submit) }}
 </form>
-<br/>
 <br/>
 
 <h3>{{ _('Basic Product Search') }}</h3>
-<!-- 
-{{ wtf.quick_form(basic_search_form) }}
- -->
- <form class="form form-inline" method="post" role="form">
-	{{ basic_search_form.hidden_tag() }}
+ <form class="form" method="post" role="form">
 	{{ wtf.form_errors(basic_search_form) }}
-	<div>
-		<label class="col-sm-2 control-label " for="type">{{ _('Product Type') }}</label>
-		<div class="col-sm-2">
-			<select class="form-control" id="type" name="type"><option value="">Select Product Type</option><option value="9122108002">9122108002</option></select>
-			
-		</div>
-	</div>
-	<br/><br/>
-	<div>
-		<label class="col-sm-2 control-label " for="serial">{{ _('Serial Number') }}</label>
-		<div class="col-sm-2">
-        	<input class="form-control" id="serial" name="serial" type="text" value="">
-		</div>
-	</div>
-	<br/><br/>
+	{{ wtf.form_field(basic_search_form.type) }}
+	{{ wtf.form_field(basic_search_form.serial) }}
+	{{ basic_search_form.csrf_token() }}
 	{{ wtf.form_field(basic_search_form.submit) }}
  </form>
 
 <br/>
 <h3>{{ _('Detailed Product Search') }}</h3>
-<form class="form form-inline" method="post" role="form">
+<form class="form" method="post" role="form">
+	{{ wtf.form_errors(detailed_search_form) }}
 	<div class="input-daterange input-group" id="datepicker">
-		{{ detailed_search_form.hidden_tag() }}
-		{{ wtf.form_errors(detailed_search_form) }}
-		<div>
-			<label class="col-sm-2 control-label" for="start">{{ _('Start Date') }}</label>
-			<div class="col-sm-2">
-				<input type="text" class="input-sm form-control" name="start" />
-			</div>
-		</div>
-		<br/><br/>
-		<div>
-			<label class="col-sm-2 control-label " for="end">{{ _('End Date') }}</label>
-			<div class="col-sm-2">
-				<input type="text" class="input-sm form-control" name="end" />
-			</div>
-		</div>
-	</div>
-	<br/>
-	<div>
-		<label class="col-sm-2 control-label " for="status_failed">{{ _('Status Failed') }}</label>
-		<div class="col-sm-2">
-			<input type="checkbox" name="status_failed"/>
-		</div>
-	</div>
-	<br/><br/>
-	<div>
-		<label class="col-sm-2 control-label " for="operation_failed">{{ _('Operation Failed') }}</label>
-		<div class="col-sm-2">
-			<input type="checkbox" name="operation_failed"/>
-		</div>
-	</div>
-	<br/><br/>
+		{{ wtf.form_field(detailed_search_form.start) }}
+		{{ wtf.form_field(detailed_search_form.end) }}
+	</div>		
+	{{ wtf.form_field(detailed_search_form.status_failed) }}
+	{{ wtf.form_field(detailed_search_form.operation_failed) }}
+	{{ detailed_search_form.csrf_token() }}
 	{{ wtf.form_field(detailed_search_form.submit) }}
 </form>
 
