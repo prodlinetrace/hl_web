@@ -18,7 +18,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI_PREFIX = 'sqlite:///'
     BOOTSTRAP_SERVE_LOCAL = True
     LANGUAGES = (('en', 'English'), ('pl', 'Polish'))
-    VERSION = '1.6.2'
+    VERSION = '1.7.0'
     DBMODEL_VERSION = "None"
     BABEL_DEFAULT_LOCALE = 'pl'
     MODE = False
@@ -42,8 +42,7 @@ class DevelopmentConfig(Config):
     MODE = "development"
     SECRET_KEY = os.environ.get('SECRET_KEY') or 't0p s3cr3t'
     WTF_CSRF_SECRET_KEY = SECRET_KEY
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql+pymysql://trace:pass@localhost/trace'
     PRODUCTS_PER_PAGE = 50
 
 
@@ -52,16 +51,14 @@ class TestingConfig(Config):
     MODE = "testing"
     SECRET_KEY = 'secret'
     WTF_CSRF_SECRET_KEY = SECRET_KEY
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or 'mysql+pymysql://trace:pass@localhost/trace'
 
 
 class ProductionConfig(Config):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 't0p s3cr3t'
     WTF_CSRF_SECRET_KEY = SECRET_KEY
     MODE = "production"
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'mysql+pymysql://trace:pass@localhost/trace'
 
 
 config = {

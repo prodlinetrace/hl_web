@@ -8,15 +8,20 @@ from .. import db, babel, cfg
 from ..models import *
 from . import products
 from .forms import ProductForm, CommentForm, FindProductForm, FindProductsRangeForm, ExportProductsRangeForm, HandScannerSearchForm
+from datetime import datetime
 
 @products.route('/')
 def index():
+    start = datetime.now()
+    debug_print=False
     page = request.args.get('page', 1, type=int)
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
     status = request.args.get('status')
     operation = request.args.get('operation')
     per_page = current_app.config['PRODUCTS_PER_PAGE']
+    db.create_all()
+
     query = Product.query
     if start_date:
         query = query.filter(start_date <= Product.date_added)
@@ -28,11 +33,19 @@ def index():
     if operation:
         # include in the list in case one of operations is equal to searched operation_id
         query = query.filter(Product.operations.any(Operation.operation_status_id==operation))
-
+    if debug_print:
+        print "before query:", datetime.now() - start
     total = query.count()
     products = query.order_by(Product.date_added.desc()).paginate(page, per_page, False).items
+    if debug_print:
+        print "after query:", datetime.now() - start
     pagination = Pagination(page=page, total=total, record_name='products', per_page=per_page)
-    return render_template('products/index.html', products=products, pagination=pagination, Status=Status, Operation=Operation)
+    if debug_print:
+        print "after pagination:", datetime.now() - start
+    t = render_template('products/index.html', products=products, pagination=pagination, Status=Status, Operation=Operation)
+    if debug_print:
+        print "FINISHED template rendering:", datetime.now() - start
+    return t
 
 @products.route('/download')
 def download(start_date=None, end_date=None, status=None, operation=None):
@@ -197,6 +210,7 @@ def product(id):
     headers = {}
     if current_user.is_authenticated():
         headers['X-XSS-Protection'] = '0'
+        
     return render_template('products/product.html', product=product, form=form, comments=comments, pagination=pagination, Status=Status, Operation=Operation), 200, headers
 
 @products.route('/edit/<id>', methods=['GET', 'POST'])
